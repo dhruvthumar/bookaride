@@ -104,6 +104,7 @@ if page == "Book a Ride":
     # Show Booked Rides
     st.subheader("Booked Rides")
     df = load_data()
+    df = delete_expired_rides(df) 
     if not df.empty:
         df['DateTime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'], format="%Y-%m-%d %I:%M %p")
         df = df.sort_values('DateTime').drop(columns=['DateTime']).reset_index(drop=True)
