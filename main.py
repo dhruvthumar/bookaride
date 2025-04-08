@@ -44,16 +44,25 @@ def overwrite_sheet(df):
         sheet.append_row(row.tolist())
 
 def delete_expired_rides(df):
-    now = datetime.now()
+    import pytz
+    local_tz = pytz.timezone("Canada/Eastern")
+    now = datetime.now(local_tz)  # ✅ Local time
+
     keep_rows = []
     for i, ride in df.iterrows():
         ride_datetime = datetime.strptime(f"{ride['Date']} {ride['Time']}", "%Y-%m-%d %I:%M %p")
+        # Assume ride times are in local Canada time too
+        ride_datetime = local_tz.localize(ride_datetime)
+
         if now < ride_datetime:
             keep_rows.append(i)
+    
     if len(keep_rows) < len(df):
         df = df.loc[keep_rows].reset_index(drop=True)
         overwrite_sheet(df)
+    
     return df
+
 
 def highlight_overdue(df):
     now = datetime.now()
