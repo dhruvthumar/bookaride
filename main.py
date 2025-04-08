@@ -25,7 +25,7 @@ sheet = connect_to_sheet()
 # --- FUNCTIONS TO HANDLE SHEET DATA ---
 def load_data():
     records = sheet.get_all_records()
-    st.write("🔍 Loaded records:", records)
+    #st.write("🔍 Loaded records:", records)
     df = pd.DataFrame(records)
     if df.empty:
         st.write("⚠️ No rides found in sheet!")
