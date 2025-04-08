@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import gspread
 from datetime import datetime
+from google.oauth2.service_account import Credentials
 from oauth2client.service_account import ServiceAccountCredentials
 
 # --- CONFIGURATION ---
@@ -12,6 +13,7 @@ ADMIN_PASSWORD = "pasword"  # Same as before
 @st.cache_resource
 def connect_to_sheet():
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    st.write(st.secrets["gcp_service_account"])  # ← TEMPORARY for debugging
     creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes=scope)
     client = gspread.authorize(creds)
     st.write("✅ Connected to Google Sheets!")
