@@ -1,3 +1,4 @@
+import pytz
 import streamlit as st
 import pandas as pd
 import gspread
@@ -75,7 +76,10 @@ if page == "Book a Ride":
     
     with st.form(key="ride_form"):
         name = st.text_input("Your Name")
-        date = st.date_input("Ride Date", min_value=datetime.now().date())
+        local_tz = pytz.timezone("Canada/Eastern")
+        local_now = datetime.now(local_tz)
+
+        date = st.date_input("Ride Date", min_value=local_now.date())
         
         col1, col2, col3 = st.columns(3)
         with col1:
